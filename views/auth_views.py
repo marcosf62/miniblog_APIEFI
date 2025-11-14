@@ -28,7 +28,8 @@ class RegisterAPI(MethodView):
         # Guardar password hasheada
         cred = UserCredentials(
             user_id=user.id,
-            password_hash=bcrypt.hash(data["password"])
+            password_hash=bcrypt.hash(data["password"]),
+            role=data['role']
         )
         db.session.add(cred)
         db.session.commit()
@@ -51,5 +52,5 @@ class LoginAPI(MethodView):
         if not cred or not bcrypt.verify(data["password"], cred.password_hash):
             return {"msg": "Usuario o contraseña incorrecta"}, 401
 
-        token = create_access_token(identity=user.id, additional_claims={"role": user.role})
+        token = create_access_token(identity=str(user.id), additional_claims={"role": user.role})
         return {"access_token": token}, 200

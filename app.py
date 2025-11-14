@@ -3,6 +3,8 @@ from extensions import db, migrate, jwt
 from config import Config
 from models import User, Post, Comment
 
+from flask_cors import CORS
+
 def create_app():
     app = Flask(__name__)
     app.config.from_object(Config)
@@ -10,6 +12,8 @@ def create_app():
     db.init_app(app)
     migrate.init_app(app, db)
     jwt.init_app(app)
+    
+    CORS(app) #para la efi del agus en react
 
     from views.auth_views import RegisterAPI, LoginAPI
     app.add_url_rule("/api/register", view_func=RegisterAPI.as_view("register_api"))
