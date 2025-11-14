@@ -1,6 +1,13 @@
 # schemas/user_schema.py
 from marshmallow import Schema, fields, validate
 
+class UserSchema(Schema):
+    id = fields.Int(required=True)
+    username = fields.Str(required=True, validate=validate.Length(min=3))
+    email = fields.Email(required=True)
+    role = fields.Str(required=True, load_only=True)
+
+
 class RegisterSchema(Schema):
     username = fields.Str(required=True, validate=validate.Length(min=3))
     email = fields.Email(required=True)

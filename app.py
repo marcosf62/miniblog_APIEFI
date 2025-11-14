@@ -3,6 +3,7 @@ from extensions import db, migrate, jwt
 from config import Config
 from models import User, Post, Comment
 
+
 from flask_cors import CORS
 
 def create_app():
@@ -18,6 +19,9 @@ def create_app():
     from views.auth_views import RegisterAPI, LoginAPI
     app.add_url_rule("/api/register", view_func=RegisterAPI.as_view("register_api"))
     app.add_url_rule("/api/login", view_func=LoginAPI.as_view("login_api"))
+
+    from views.user_views import UserAPI
+    app.add_url_rule("/api/user/<int:user_id>", view_func=UserAPI)
 
     # Rutas de Posts y Comments
     from views.post_views import PostListAPI, PostDetailAPI
