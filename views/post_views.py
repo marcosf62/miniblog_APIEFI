@@ -26,7 +26,7 @@ class PostListAPI(MethodView):
         )
         db.session.add(post)
         db.session.commit()
-        return {"message": "Post creado", "post_id": post.id}, 201
+        return PostSchema().dump(post), 201
 
 
     def get(self):
@@ -63,10 +63,16 @@ class PostDetailAPI(MethodView):
         """Eliminar un post"""
         post = Post.query.get_or_404(post_id)
         user_id = int(get_jwt_identity())  
+        user=User.query.get_or_404(user_id)
+        role= user.role
+        print(f'role {role}')
+        print(f'user_id {user_id}')
+        print(f'post.user_id  {post.user_id}')
 
-        if post.user_id != user_id:
-            return {"msg": "No autorizado"}, 403
-
+        if role != "admin":
+            if user_id != post.user_id:
+                return {"msg": "No autorizado"}, 403
+                
         db.session.delete(post)
         db.session.commit()
         return {"message": "Post eliminado"}, 200

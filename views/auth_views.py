@@ -21,7 +21,7 @@ class RegisterAPI(MethodView):
             return {"msg": "Usuario o email ya existe"}, 400
 
         # Crear usuario
-        user = User(username=data["username"], email=data["email"])
+        user = User(username=data["username"], email=data["email"], role=data["role"])
         db.session.add(user)
         db.session.commit()
 

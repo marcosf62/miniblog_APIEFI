@@ -21,7 +21,7 @@ def create_app():
     app.add_url_rule("/api/login", view_func=LoginAPI.as_view("login_api"))
 
     from views.user_views import UserAPI
-    app.add_url_rule("/api/user/<int:user_id>", view_func=UserAPI)
+    app.add_url_rule("/api/user/<int:user_id>", view_func=UserAPI.as_view("user_api"))
 
     # Rutas de Posts y Comments
     from views.post_views import PostListAPI, PostDetailAPI

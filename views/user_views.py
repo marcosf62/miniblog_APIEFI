@@ -12,5 +12,6 @@ class UserAPI(MethodView):
     @jwt_required()
     def get(self, user_id):
         #Obtener usuario
-        return User.query.get_or_404(user_id)
+        user = User.query.get_or_404(user_id)
+        return UserSchema().dump(user), 200
         
